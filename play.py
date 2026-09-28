@@ -20,21 +20,15 @@ def local_ip():
 def main():
     parser = argparse.ArgumentParser(description="Play an audio file on a Sonos speaker.")
     parser.add_argument("file", help="audio filename inside the resources/ folder")
-    parser.add_argument("--speaker", help="speaker name (defaults to first found)")
+    parser.add_argument("--speaker", required=True, help="speaker name (see list_speakers.py)")
     parser.add_argument("--port", type=int, default=8080)
     parser.add_argument("--volume", type=int, default=25)
     args = parser.parse_args()
 
-    speakers = list(soco.discover())
-    if not speakers:
-        raise SystemExit("No Sonos speakers found on the network.")
-
-    for s in speakers:
-        print(s.player_name, s.ip_address)
-
-    speaker = soco.discovery.by_name(args.speaker) if args.speaker else speakers[0]
+    speaker = soco.discovery.by_name(args.speaker)
     if speaker is None:
         raise SystemExit(f"Speaker {args.speaker!r} not found.")
+
 
     path = RESOURCES / args.file
     if not path.is_file():

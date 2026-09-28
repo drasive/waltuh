@@ -19,10 +19,17 @@ cd resources
 python -m http.server 8080
 ```
 
-In another terminal, play it on a speaker:
+In another terminal, list the speakers:
 
 ```powershell
-python play.py song.mp3
+python list_speakers.py
 ```
 
-Options: `--speaker "Living Room"`, `--port 8080`, `--volume 25`.
+Then play on a chosen speaker:
+
+```powershell
+python play.py song.mp3 --speaker "Living Room"
+```
+
+`--speaker` is required. If that speaker is in a group, the group plays too.
+Options: `--port 8080`, `--volume 25`.
