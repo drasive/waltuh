@@ -29,15 +29,17 @@ def main():
     if speaker is None:
         raise SystemExit(f"Speaker {args.speaker!r} not found.")
 
-
     path = RESOURCES / args.file
     if not path.is_file():
         raise SystemExit(f"Audio file not found: {path}")
 
+    group = speaker.group
+    coordinator = group.coordinator
+
     url = f"http://{local_ip()}:{args.port}/{path.name}"
-    print(f"Playing {url} on {speaker.player_name}")
-    speaker.play_uri(url)
-    speaker.volume = args.volume
+    print(f"Playing {url} on {coordinator.player_name} ({group.short_label})")
+    group.volume = args.volume
+    coordinator.play_uri(url)
 
 
 if __name__ == "__main__":
